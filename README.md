@@ -1,1 +1,1 @@
-The server invitations that no longer work are getting on my nerves because the Discord team is too stupid. I built a checker for it. Discord, you are 1 to 1 Microsoft. You are also doing nothing but shit. In recent years, Discord has done better. RIP!
+I hate always having to take a 50/50 gamble on whether an invite has expired or not. With this website, I can finally check. Please, it's still better than putting the links in Discord and seeing that they've expired. It's so annoying, but oh well, Discord will never release anything useful for Discord. 
