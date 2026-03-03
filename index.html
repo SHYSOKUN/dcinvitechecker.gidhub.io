@@ -94,14 +94,6 @@ button:disabled { opacity:0.6; cursor:not-allowed; }
 }
 .side-menu a:hover { background: rgba(255,28,28,0.3); }
 
-.side-menu .close-menu {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  font-size: 28px;
-  cursor: pointer;
-}
-
 /* HAMBURGER */
 .hamburger {
   position: fixed;
@@ -131,13 +123,12 @@ button:disabled { opacity:0.6; cursor:not-allowed; }
 <canvas id="starCanvas"></canvas>
 
 <!-- HAMBURGER ICON ON LEFT -->
-<div class="hamburger" onclick="openMenu()">☰</div>
+<div class="hamburger" onclick="toggleMenu()">☰</div>
 
 <!-- SIDE MENU LEFT -->
 <div class="side-menu" id="sideMenu">
-  <span class="close-menu" onclick="closeMenu()">✖</span>
-  <a href="#" onclick="closeMenu()">🏠 Home</a>
-  <a href="credit.html">💳 Credits</a>
+  <a href="#" onclick="toggleMenu()">🏠 Home</a>
+  <a href="credits.html">💳 Credits</a>
 </div>
 
 <!-- CENTER CARD -->
@@ -232,9 +223,13 @@ async function checkInvite(){
   }finally{ btn.disabled=false; btn.innerText=t.check; }
 }
 
-/* SIDE MENU FUNCTIONS */
-function openMenu(){ document.getElementById("sideMenu").style.left="0"; }
-function closeMenu(){ document.getElementById("sideMenu").style.left="-260px"; }
+/* SIDE MENU TOGGLE */
+let menuOpen = false;
+function toggleMenu(){
+  const menu = document.getElementById("sideMenu");
+  menuOpen = !menuOpen;
+  menu.style.left = menuOpen ? "0" : "-260px";
+}
 
 currentLang=detectBrowserLanguage();
 applyLanguage(currentLang);
