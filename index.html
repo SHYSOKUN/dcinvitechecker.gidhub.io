@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Discord Invite Checker</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 <style>
 * { box-sizing: border-box; margin:0; padding:0; }
+
 body {
   font-family: 'Inter', sans-serif;
   height: 100vh;
@@ -37,44 +37,37 @@ canvas {
   max-width: 500px;
   box-shadow: 0 25px 60px rgba(0,0,0,0.8);
   transition: opacity 0.3s ease, transform 0.3s ease;
-  animation: floatCard 4s ease-in-out infinite alternate;
+  animation: floatCard 4s ease-in-out infinite alternate, pulseCard 3s ease-in-out infinite alternate;
 }
 
-@keyframes floatCard {
-  0% { transform: translateY(0px); }
-  100% { transform: translateY(-10px); }
-}
+@keyframes floatCard { 0% { transform: translateY(0px); } 100% { transform: translateY(-10px); } }
+@keyframes pulseCard { 0% { box-shadow:0 25px 60px rgba(0,0,0,0.8);} 50% { box-shadow:0 35px 80px rgba(255,28,28,0.5);} 100% { box-shadow:0 25px 60px rgba(0,0,0,0.8);} }
 
 h1 { text-align: center; font-weight: 700; font-size: 28px; margin-bottom:8px; }
-p { text-align: center; font-size: 14px; color: #ccc; margin-bottom:30px; }
+p { text-align: center; font-size: 14px; color: #ccc; margin-bottom:10px; }
 
 .top-bar { display:flex; justify-content:flex-end; margin-bottom:15px; }
-select {
-  background:#222; color:#fff; border:none; padding:8px 12px; border-radius:10px;
-  cursor:pointer; font-weight:500; transition:0.2s;
-}
+select { background:#222; color:#fff; border:none; padding:8px 12px; border-radius:10px; cursor:pointer; font-weight:500; transition:0.2s; }
 select:hover { background:#333; }
 
-.input-group { display:flex; gap:12px; margin-top:15px; }
-input {
-  flex:1; padding:16px; border-radius:12px; border:none; background:#222;
-  color:#fff; font-size:15px; transition:0.2s;
-}
+.input-group { display:flex; gap:12px; margin-top:15px; opacity:0; animation: fadeIn 1s forwards; }
+@keyframes fadeIn { to { opacity:1; } }
+
+input { flex:1; padding:16px; border-radius:12px; border:none; background:#222; color:#fff; font-size:15px; transition:0.2s; }
 input:focus { outline:none; box-shadow:0 0 10px #ff1c1c; }
 
-button {
-  padding:16px 22px; border-radius:12px; border:none; cursor:pointer;
-  background:#ff1c1c; color:#fff; font-weight:600; font-size:15px; transition:0.3s;
-}
-button:hover { background:#b20000; box-shadow:0 0 10px #ff1c1c; }
+button { padding:16px 22px; border-radius:12px; border:none; cursor:pointer; background:#ff1c1c; color:#fff; font-weight:600; font-size:15px; transition:0.3s; }
+button:hover { background:#b20000; box-shadow:0 0 15px #ff1c1c; }
 button:disabled { opacity:0.6; cursor:not-allowed; }
 
-.result { margin-top:25px; padding:20px; border-radius:16px; font-size:14px; animation: fadeResult 0.3s ease; }
+.result { margin-top:25px; padding:20px; border-radius:16px; font-size:14px; animation: fadeResult 0.4s ease forwards; }
 @keyframes fadeResult { from{opacity:0; transform:translateY(5px);} to{opacity:1; transform:translateY(0);} }
 
 .success { background: rgba(59,165,93,0.15); border: 1px solid rgba(59,165,93,0.4); color: #3ba55d; }
 .error { background: rgba(237,66,69,0.15); border: 1px solid rgba(237,66,69,0.4); color: #ed4245; }
 .server-name { font-weight:600; margin-top:6px; color:#fff; }
+
+#usedCounter { text-align:center; margin-top:10px; font-size:14px; color:#ff1c1c; cursor:pointer; text-decoration:underline; }
 </style>
 </head>
 <body>
@@ -99,133 +92,107 @@ button:disabled { opacity:0.6; cursor:not-allowed; }
     <button onclick="checkInvite()" id="checkBtn"></button>
   </div>
 
+  <!-- NEW CREDITS BUTTON -->
+  <div style="text-align:center; margin-top:15px;">
+    <button id="creditsBtn" onclick="goToCredit()" style="
+      padding:10px 18px;
+      border:none;
+      border-radius:12px;
+      background:#ff1c1c;
+      color:#fff;
+      font-weight:600;
+      cursor:pointer;
+      transition:0.3s;
+    ">Credits</button>
+  </div>
+
   <div id="output"></div>
+  <div id="usedCounter">Used: 0</div>
 </div>
 
 <script>
-/* ===== FALLING RED STARS ===== */
+/* ===== STAR BACKGROUND ===== */
 const canvas = document.getElementById('starCanvas');
 const ctx = canvas.getContext('2d');
 let stars = [];
-let starCount = 50; // more stars
-
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
+let starCount = 60;
+function resizeCanvas(){ canvas.width=window.innerWidth; canvas.height=window.innerHeight; }
+window.addEventListener('resize',resizeCanvas); resizeCanvas();
 
 function createStars(){
-  stars = [];
+  stars=[];
   for(let i=0;i<starCount;i++){
-    stars.push({
-      x: Math.random()*canvas.width,
-      y: Math.random()*canvas.height,
-      size: Math.random()*6 + 4,
-      speed: Math.random()*2 + 1, // faster
-      rotation: Math.random()*360
-    });
+    stars.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, size:Math.random()*6+4, speed:Math.random()*3+1, rotation:Math.random()*360});
   }
 }
 createStars();
-
 function drawStar(x,y,radius,rotation){
-  ctx.save();
-  ctx.translate(x,y);
-  ctx.rotate(rotation * Math.PI/180);
-  ctx.beginPath();
-  for(let i=0;i<5;i++){
-    ctx.lineTo(0, -radius);
-    ctx.translate(0, -radius);
-    ctx.rotate(Math.PI*2/5);
-  }
-  ctx.closePath();
-  ctx.fillStyle="#ff1c1c";
-  ctx.fill();
-  ctx.restore();
+  ctx.save(); ctx.translate(x,y); ctx.rotate(rotation*Math.PI/180); ctx.beginPath();
+  for(let i=0;i<5;i++){ ctx.lineTo(0,-radius); ctx.translate(0,-radius); ctx.rotate(Math.PI*2/5); }
+  ctx.closePath(); ctx.fillStyle="#ff1c1c"; ctx.fill(); ctx.restore();
 }
-
 function animateStars(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
   for(let s of stars){
-    drawStar(s.x, s.y, s.size, s.rotation);
-    s.y += s.speed;
-    s.rotation += 3; // slightly faster rotation
-    if(s.y > canvas.height + s.size){
-      s.y = -s.size;
-      s.x = Math.random()*canvas.width;
-    }
+    drawStar(s.x,s.y,s.size,s.rotation);
+    s.y+=s.speed; s.rotation+=5;
+    if(s.y>canvas.height+s.size){ s.y=-s.size; s.x=Math.random()*canvas.width; }
   }
   requestAnimationFrame(animateStars);
 }
 animateStars();
 
-/* ===== DISCORD INVITE CHECKER ===== */
+/* ===== INVITE CHECKER ===== */
 const translations = {
-en: { title: "Discord Invite Checker", subtitle: "Check Discord invite links instantly", placeholder: "Enter Discord invite link...", check: "Check", checking: "Checking...", valid: "Invite is valid", invalid: "Invite is invalid or expired", error: "Error while checking invite", enter: "Please enter an invite link", members: "Members", online: "Online" },
-de: { title: "Discord Invite Checker", subtitle: "Überprüfe Discord-Invite-Links sofort", placeholder: "Discord-Invite-Link eingeben...", check: "Prüfen", checking: "Prüfe...", valid: "Invite ist gültig", invalid: "Invite ist ungültig oder abgelaufen", error: "Fehler beim Überprüfen", enter: "Bitte gib einen Invite-Link ein", members: "Mitglieder", online: "Online" },
-ja: { title: "ディスコード招待チェッカー", subtitle: "招待リンクを即座に確認", placeholder: "招待リンクを入力...", check: "確認", checking: "確認中...", valid: "招待リンクは有効です", invalid: "招待リンクは無効または期限切れです", error: "確認中にエラーが発生しました", enter: "招待リンクを入力してください", members: "メンバー", online: "オンライン" },
-ko: { title: "디스코드 초대 확인기", subtitle: "디스코드 초대 링크 확인", placeholder: "초대 링크 입력...", check: "확인", checking: "확인 중...", valid: "초대 링크가 유효합니다", invalid: "초대 링크가 만료되었거나 유효하지 않습니다", error: "확인 중 오류 발생", enter: "초대 링크를 입력하세요", members: "멤버", online: "온라인" }
+  en: { title:"Discord Invite Checker", subtitle:"Check Discord invite links instantly", placeholder:"Enter Discord invite link...", check:"Check", checking:"Checking...", valid:"Invite is valid", invalid:"Invite is invalid or expired", error:"Error while checking invite", enter:"Please enter an invite link", members:"Members" },
+  de: { title:"Discord Invite Checker", subtitle:"Überprüfe Discord-Invite-Links sofort", placeholder:"Discord-Invite-Link eingeben...", check:"Prüfen", checking:"Prüfe...", valid:"Invite ist gültig", invalid:"Invite ist ungültig oder abgelaufen", error:"Fehler beim Überprüfen", enter:"Bitte gib einen Invite-Link ein", members:"Mitglieder" },
+  ja: { title:"ディスコード招待チェッカー", subtitle:"招待リンクを即座に確認", placeholder:"招待リンクを入力...", check:"確認", checking:"確認中...", valid:"招待リンクは有効です", invalid:"招待リンクは無効または期限切れです", error:"確認中にエラーが発生しました", enter:"招待リンクを入力してください", members:"メンバー" },
+  ko: { title:"디스코드 초대 확인기", subtitle:"디스코드 초대 링크 확인", placeholder:"초대 링크 입력...", check:"확인", checking:"확인 중...", valid:"초대 링크가 유효합니다", invalid:"초대 링크가 만료되었거나 유효하지 않습니다", error:"확인 중 오류 발생", enter:"초대 링크를 입력하세요", members:"멤버" }
 };
 
 let currentLang = "en";
-function detectBrowserLanguage() { const lang = navigator.language.slice(0,2); if(translations[lang]) return lang; return "en"; }
+let usedCount = 0;
+
+function detectBrowserLanguage(){ const lang=navigator.language.slice(0,2); return translations[lang]?lang:"en"; }
 function applyLanguage(lang){
   const t = translations[lang];
-  document.getElementById("title").innerText = t.title;
-  document.getElementById("subtitle").innerText = t.subtitle;
-  document.getElementById("inviteInput").placeholder = t.placeholder;
-  document.getElementById("checkBtn").innerText = t.check;
+  document.getElementById("title").innerText=t.title;
+  document.getElementById("subtitle").innerText=t.subtitle;
+  document.getElementById("inviteInput").placeholder=t.placeholder;
+  document.getElementById("checkBtn").innerText=t.check;
 }
 function changeLanguage(){
-  const card = document.getElementById("card");
+  const card=document.getElementById("card");
   card.classList.remove("fade-in");
   card.classList.add("fade-out");
-  setTimeout(()=>{
-    currentLang = document.getElementById("languageSelect").value;
-    applyLanguage(currentLang);
-    card.classList.remove("fade-out");
-    card.classList.add("fade-in");
-  },200);
+  setTimeout(()=>{ currentLang=document.getElementById("languageSelect").value; applyLanguage(currentLang); card.classList.remove("fade-out"); card.classList.add("fade-in"); },200);
 }
-function extractCode(url){
-  url = url.trim();
-  if(url.includes("discord.gg/")) return url.split("discord.gg/")[1].split("?")[0];
-  if(url.includes("discord.com/invite/")) return url.split("discord.com/invite/")[1].split("?")[0];
-  return url;
-}
+function extractCode(url){ url=url.trim(); if(url.includes("discord.gg/")) return url.split("discord.gg/")[1].split("?")[0]; if(url.includes("discord.com/invite/")) return url.split("discord.com/invite/")[1].split("?")[0]; return url; }
+
 async function checkInvite(){
-  const t = translations[currentLang];
-  const input = document.getElementById("inviteInput").value.trim();
-  const output = document.getElementById("output");
-  const btn = document.getElementById("checkBtn");
+  const t=translations[currentLang];
+  const input=document.getElementById("inviteInput").value.trim();
+  const output=document.getElementById("output");
+  const btn=document.getElementById("checkBtn");
 
-  if(!input){
-    output.innerHTML=`<div class="result error">${t.enter}</div>`;
-    return;
-  }
+  if(!input){ output.innerHTML=`<div class="result error">${t.enter}</div>`; return; }
 
-  const code = extractCode(input);
-  btn.disabled=true;
-  btn.innerText=t.checking;
-  output.innerHTML="";
+  const code=extractCode(input);
+  btn.disabled=true; btn.innerText=t.checking; output.innerHTML="";
 
   try{
-    const response = await fetch(`https://discord.com/api/v10/invites/${code}?with_counts=true`);
+    const response=await fetch(`https://discord.com/api/v10/invites/${code}?with_counts=true`);
     if(response.ok){
-      const data = await response.json();
-      output.innerHTML=`<div class="result success">✓ ${t.valid}<div class="server-name">${data.guild?.name || 'Unknown'}</div>${t.members}: ${data.approximate_member_count ?? '-'}<br>${t.online}: ${data.approximate_presence_count ?? '-'}</div>`;
-    }else{
-      output.innerHTML=`<div class="result error">✗ ${t.invalid}</div>`;
-    }
-  }catch{
-    output.innerHTML=`<div class="result error">✗ ${t.error}</div>`;
-  }finally{
-    btn.disabled=false;
-    btn.innerText=t.check;
-  }
+      const data=await response.json();
+      output.innerHTML=`<div class="result success">✓ ${t.valid}<div class="server-name">${data.guild?.name||'Unknown'}</div>${t.members}: ${data.approximate_member_count??'-'}</div>`;
+      usedCount++;
+      document.getElementById("usedCounter").innerText=`Used: ${usedCount}`;
+    }else{ output.innerHTML=`<div class="result error">✗ ${t.invalid}</div>`; }
+  }catch{ output.innerHTML=`<div class="result error">✗ ${t.error}</div>`; }
+  finally{ btn.disabled=false; btn.innerText=t.check; }
 }
+
+function goToCredit(){ window.location.href="credit.html"; }
 
 currentLang=detectBrowserLanguage();
 document.getElementById("languageSelect").value=currentLang;
