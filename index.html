@@ -11,16 +11,15 @@
 body {
   font-family: 'Inter', sans-serif;
   min-height: 100vh;
-  background: #000;
-  color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
+  background: #000;
   overflow-x: hidden;
+  color: #fff;
   padding: 10px;
 }
 
-/* CANVAS */
 canvas {
   position: absolute;
   top:0; left:0;
@@ -32,13 +31,14 @@ canvas {
 /* CARD */
 .card {
   position: relative;
-  z-index:2;
+  z-index:1;
   background: #111;
   padding: 40px 25px;
   border-radius: 20px;
   width: 100%;
   max-width: 450px;
   box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+  transition: opacity 0.3s ease, transform 0.3s ease;
   animation: floatCard 4s ease-in-out infinite alternate, pulseCard 3s ease-in-out infinite alternate;
 }
 
@@ -49,69 +49,80 @@ h1 { text-align: center; font-weight: 700; font-size: 24px; margin-bottom:6px; }
 p { text-align: center; font-size: 13px; color: #ccc; margin-bottom:10px; }
 
 .input-group { display:flex; gap:10px; margin-top:15px; flex-wrap: wrap; }
-input { flex:1 1 60%; padding:12px; border-radius:12px; border:none; background:#222; color:#fff; font-size:14px; }
+input { flex:1 1 60%; padding:12px; border-radius:12px; border:none; background:#222; color:#fff; font-size:14px; transition:0.2s; }
 input:focus { outline:none; box-shadow:0 0 10px #ff1c1c; }
 
 button { padding:12px 18px; border-radius:12px; border:none; cursor:pointer; background:#ff1c1c; color:#fff; font-weight:600; font-size:14px; transition:0.3s; flex:1 1 35%; }
 button:hover { background:#b20000; box-shadow:0 0 15px #ff1c1c; }
 button:disabled { opacity:0.6; cursor:not-allowed; }
 
-.result { margin-top:20px; padding:18px; border-radius:16px; font-size:14px; }
+.result { margin-top:20px; padding:18px; border-radius:16px; font-size:14px; animation: fadeResult 0.4s ease forwards; }
+@keyframes fadeResult { from{opacity:0; transform:translateY(5px);} to{opacity:1; transform:translateY(0);} }
+
 .success { background: rgba(59,165,93,0.15); border: 1px solid rgba(59,165,93,0.4); color: #3ba55d; }
 .error { background: rgba(237,66,69,0.15); border: 1px solid rgba(237,66,69,0.4); color: #ed4245; }
 .server-name { font-weight:600; margin-top:6px; color:#fff; word-break: break-word; }
 
 /* SIDE MENU */
-.menu-icon {
-  position: fixed;
-  top: 15px;
-  right: 20px;
-  font-size: 32px;
-  cursor: pointer;
-  color: #fff;
-  z-index: 10;
-  user-select: none;
-}
-
 .side-menu {
   position: fixed;
+  left: -260px; /* hidden initially */
   top: 0;
-  left: -250px; /* hidden by default */
-  width: 250px;
+  width: 260px;
   height: 100%;
   background: #111;
-  z-index: 20;
+  box-shadow: 2px 0 15px rgba(0,0,0,0.7);
+  padding: 50px 20px 20px 20px;
+  transition: left 0.3s ease;
+  z-index: 999;
   display: flex;
   flex-direction: column;
-  padding-top: 60px;
-  gap: 30px;
-  transition: left 0.3s ease;
-  box-shadow: 5px 0 20px rgba(0,0,0,0.5);
+  gap: 20px;
 }
 
 .side-menu a {
-  color: #fff;
+  color:#fff;
   text-decoration: none;
-  font-weight: 600;
-  font-size: 20px;
-  display:flex;
-  align-items:center;
+  font-weight:600;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
   gap:10px;
-  padding-left: 20px;
+  padding:8px;
+  border-radius:8px;
+  transition:0.2s;
+}
+.side-menu a:hover { background: rgba(255,28,28,0.3); }
+
+.side-menu .close-menu {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  font-size: 28px;
+  cursor: pointer;
 }
 
-.side-menu a:hover { color: #ff1c1c; }
-.side-menu.open { left: 0; }
+/* HAMBURGER */
+.hamburger {
+  position: fixed;
+  left: 15px;
+  top: 15px;
+  font-size: 28px;
+  color: #fff;
+  cursor: pointer;
+  z-index:1000;
+}
 
-@media (max-width: 500px) {
+/* MEDIA */
+@media (max-width: 500px){
   .card { padding: 30px 20px; }
   h1 { font-size: 22px; }
   p { font-size: 12px; }
   input { font-size:13px; padding:10px; }
   button { font-size:13px; padding:10px 15px; }
-  .side-menu { width: 70%; padding-top: 80px; }
-  .side-menu a { font-size: 26px; }
-  .menu-icon { font-size: 36px; }
+  .side-menu { width: 200px; padding: 40px 15px; }
+  .hamburger { font-size:32px; }
+  .side-menu a { font-size:16px; }
 }
 </style>
 </head>
@@ -119,24 +130,18 @@ button:disabled { opacity:0.6; cursor:not-allowed; }
 
 <canvas id="starCanvas"></canvas>
 
-<!-- MENU ICON -->
-<span class="menu-icon" onclick="toggleMenu()">☰</span>
+<!-- HAMBURGER ICON ON LEFT -->
+<div class="hamburger" onclick="openMenu()">☰</div>
 
-<!-- SIDE MENU -->
+<!-- SIDE MENU LEFT -->
 <div class="side-menu" id="sideMenu">
-  <a href="#" onclick="closeMenu()"><i>🏠</i> Home</a>
-  <a href="credit.html"><i>💳</i> Credits</a>
+  <span class="close-menu" onclick="closeMenu()">✖</span>
+  <a href="#" onclick="closeMenu()">🏠 Home</a>
+  <a href="credit.html">💳 Credits</a>
 </div>
 
-<!-- MAIN CARD -->
-<div class="card" id="card">
-  <select id="languageSelect" onchange="changeLanguage()" style="margin-bottom:15px; width:100%; padding:8px; border-radius:12px; border:none; background:#222; color:#fff; font-size:14px;">
-    <option value="en">English</option>
-    <option value="de">Deutsch</option>
-    <option value="ja">日本語</option>
-    <option value="ko">한국어</option>
-  </select>
-
+<!-- CENTER CARD -->
+<div class="card fade-in" id="card">
   <h1 id="title"></h1>
   <p id="subtitle"></p>
 
@@ -198,11 +203,6 @@ function applyLanguage(lang){
   document.getElementById("inviteInput").placeholder=t.placeholder;
   document.getElementById("checkBtn").innerText=t.check;
 }
-function changeLanguage(){
-  const card=document.getElementById("card");
-  currentLang=document.getElementById("languageSelect").value; 
-  applyLanguage(currentLang);
-}
 function extractCode(url){ 
   url=url.trim(); 
   if(url.includes("discord.gg/")) return url.split("discord.gg/")[1].split("?")[0]; 
@@ -233,16 +233,12 @@ async function checkInvite(){
 }
 
 /* SIDE MENU FUNCTIONS */
-function toggleMenu() {
-  document.getElementById('sideMenu').classList.toggle('open');
-}
-function closeMenu() {
-  document.getElementById('sideMenu').classList.remove('open');
-}
+function openMenu(){ document.getElementById("sideMenu").style.left="0"; }
+function closeMenu(){ document.getElementById("sideMenu").style.left="-260px"; }
 
 currentLang=detectBrowserLanguage();
-document.getElementById("languageSelect").value=currentLang;
 applyLanguage(currentLang);
 </script>
+
 </body>
 </html>
