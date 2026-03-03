@@ -1,0 +1,1 @@
+The server invitations that no longer work are getting on my nerves because the Discord team is too stupid. I built a checker for it. Discord, you are 1 to 1 Microsoft. You are also doing nothing but shit. In recent years, Discord has done better. RIP!
