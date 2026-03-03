@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Credits</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body { 
+  background:#000; 
+  color:#fff; 
+  font-family:'Inter', sans-serif; 
+  display:flex; 
+  justify-content:center; 
+  align-items:center; 
+  height:100vh; 
+  flex-direction:column; 
+  margin:0; 
+  overflow:hidden;
+}
+
+canvas {
+  position: absolute;
+  top:0; left:0;
+  width:100%;
+  height:100%;
+  z-index:0;
+}
+
+.container {
+  position: relative;
+  z-index:1;
+  text-align:center;
+}
+
+h1 { 
+  font-size:36px; 
+  margin-bottom:20px; 
+  color:#ff1c1c; 
+  text-shadow:0 0 10px #ff1c1c; 
+}
+
+p { 
+  font-size:18px; 
+  margin:10px 0; 
+}
+
+a { 
+  color:#ff1c1c; 
+  text-decoration:underline; 
+  margin-top:20px; 
+  font-size:16px;
+  transition:0.3s;
+}
+
+a:hover { text-shadow:0 0 10px #ff1c1c; }
+
+/* Falling red stars animation */
+</style>
+</head>
+<body>
+
+<canvas id="starCanvas"></canvas>
+
+<div class="container">
+  <h1>Credits</h1>
+  <p>Created by: SHYSOKUN,GODMODEDEX,</p>
+  <p>Special thanks to Discord API</p>
+  <a href="index.html">Back to Invite Checker</a>
+</div>
+
+<script>
+/* ===== FALLING RED STARS ===== */
+const canvas = document.getElementById('starCanvas');
+const ctx = canvas.getContext('2d');
+let stars = [];
+let starCount = 60;
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+function createStars() {
+  stars = [];
+  for (let i=0;i<starCount;i++){
+    stars.push({
+      x: Math.random()*canvas.width,
+      y: Math.random()*canvas.height,
+      size: Math.random()*6 + 4,
+      speed: Math.random()*3 + 1,
+      rotation: Math.random()*360
+    });
+  }
+}
+createStars();
+
+function drawStar(x,y,radius,rotation){
+  ctx.save();
+  ctx.translate(x,y);
+  ctx.rotate(rotation * Math.PI/180);
+  ctx.beginPath();
+  for(let i=0;i<5;i++){
+    ctx.lineTo(0,-radius);
+    ctx.translate(0,-radius);
+    ctx.rotate(Math.PI*2/5);
+  }
+  ctx.closePath();
+  ctx.fillStyle="#ff1c1c";
+  ctx.fill();
+  ctx.restore();
+}
+
+function animateStars(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  for(let s of stars){
+    drawStar(s.x,s.y,s.size,s.rotation);
+    s.y += s.speed;
+    s.rotation += 5;
+    if(s.y > canvas.height + s.size){
+      s.y = -s.size;
+      s.x = Math.random()*canvas.width;
+    }
+  }
+  requestAnimationFrame(animateStars);
+}
+animateStars();
+</script>
+
+</body>
+</html>
