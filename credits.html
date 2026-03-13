@@ -1,174 +1,386 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Credits</title>
+
+<!-- Google Font -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-* { box-sizing: border-box; margin:0; padding:0; }
+
+/* ============================= */
+/* GLOBAL RESET */
+/* ============================= */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
+  background: #000;
+  color: #fff;
+
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #000;
+
   overflow-x: hidden;
-  color: #fff;
   padding: 10px;
 }
 
+/* ============================= */
+/* STAR CANVAS BACKGROUND */
+/* ============================= */
+
 canvas {
   position: absolute;
-  top:0; left:0;
-  width:100%;
-  height:100%;
-  z-index:0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
 }
 
-/* CARD */
+/* ============================= */
+/* MAIN CARD */
+/* ============================= */
+
 .card {
   position: relative;
-  z-index:1;
+  z-index: 1;
+
   background: #111;
-  padding: 50px 30px; /* bigger padding */
   border-radius: 20px;
+
   width: 100%;
-  max-width: 500px; /* bigger card */
+  max-width: 500px;
+
+  padding: 50px 30px;
+
   box-shadow: 0 25px 60px rgba(0,0,0,0.8);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  animation: floatCard 4s ease-in-out infinite alternate, pulseCard 3s ease-in-out infinite alternate;
+
+  animation:
+    floatCard 4s ease-in-out infinite alternate,
+    pulseCard 3s ease-in-out infinite alternate;
+
   word-break: break-word;
 }
 
-@keyframes floatCard { 0% { transform: translateY(0px); } 100% { transform: translateY(-10px); } }
-@keyframes pulseCard { 0% { box-shadow:0 25px 60px rgba(0,0,0,0.8);} 50% { box-shadow:0 35px 80px rgba(255,28,28,0.5);} 100% { box-shadow:0 25px 60px rgba(0,0,0,0.8);} }
+/* Floating animation */
+@keyframes floatCard {
+  0%   { transform: translateY(0px); }
+  100% { transform: translateY(-10px); }
+}
 
-h1 { text-align: center; font-weight: 700; font-size: 28px; margin-bottom:12px; } /* bigger font */
-p { text-align: center; font-size: 16px; color: #ccc; margin-bottom:15px; } /* bigger font */
-ul { margin-top:15px; padding-left:20px; font-size:16px; } /* bigger font */
-li { margin-bottom:10px; }
+/* Glow animation */
+@keyframes pulseCard {
+  0%   { box-shadow: 0 25px 60px rgba(0,0,0,0.8); }
+  50%  { box-shadow: 0 35px 80px rgba(255,28,28,0.5); }
+  100% { box-shadow: 0 25px 60px rgba(0,0,0,0.8); }
+}
 
+/* Text styling */
+
+h1 {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+p {
+  text-align: center;
+  font-size: 16px;
+  color: #ccc;
+  margin-bottom: 15px;
+}
+
+ul {
+  margin-top: 15px;
+  padding-left: 20px;
+  font-size: 16px;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+/* ============================= */
 /* SIDE MENU */
+/* ============================= */
+
 .side-menu {
   position: fixed;
-  left: -260px; /* hidden initially */
   top: 0;
+  left: -260px;
+
   width: 260px;
   height: 100%;
+
   background: #111;
   box-shadow: 2px 0 15px rgba(0,0,0,0.7);
-  padding: 50px 20px 20px 20px;
-  transition: left 0.3s ease;
+
+  padding: 50px 20px 20px;
   z-index: 999;
+
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  transition: left 0.3s ease;
 }
 
 .side-menu a {
-  color:#fff;
+  color: #fff;
   text-decoration: none;
-  font-weight:600;
   font-size: 18px;
+  font-weight: 600;
+
   display: flex;
   align-items: center;
-  gap:10px;
-  padding:8px;
-  border-radius:8px;
-  transition:0.2s;
-}
-.side-menu a:hover { background: rgba(255,28,28,0.3); }
+  gap: 10px;
 
-/* HAMBURGER */
+  padding: 8px;
+  border-radius: 8px;
+
+  transition: 0.2s;
+}
+
+.side-menu a:hover {
+  background: rgba(255,28,28,0.3);
+}
+
+/* ============================= */
+/* HAMBURGER BUTTON */
+/* ============================= */
+
 .hamburger {
   position: fixed;
-  left: 15px;
   top: 15px;
+  left: 15px;
+
   font-size: 28px;
   color: #fff;
   cursor: pointer;
-  z-index:1000;
+
+  z-index: 1000;
 }
 
-/* MEDIA */
-@media (max-width: 500px){
-  .card { padding: 40px 25px; max-width: 90%; }
+/* ============================= */
+/* MOBILE RESPONSIVE */
+/* ============================= */
+
+@media (max-width: 500px) {
+
+  .card {
+    padding: 40px 25px;
+    max-width: 90%;
+  }
+
   h1 { font-size: 24px; }
-  p { font-size: 14px; }
-  ul { font-size:14px; padding-left:15px; }
-  .side-menu { width: 200px; padding: 40px 15px; }
-  .hamburger { font-size:32px; }
-  .side-menu a { font-size:16px; }
+  p  { font-size: 14px; }
+
+  ul {
+    font-size: 14px;
+    padding-left: 15px;
+  }
+
+  .side-menu {
+    width: 200px;
+    padding: 40px 15px;
+  }
+
+  .side-menu a { font-size: 16px; }
+
+  .hamburger { font-size: 32px; }
+
 }
+
 </style>
 </head>
+
+
 <body>
+
+<!-- ============================= -->
+<!-- STAR BACKGROUND -->
+<!-- ============================= -->
 
 <canvas id="starCanvas"></canvas>
 
-<!-- HAMBURGER ICON ON LEFT -->
+
+<!-- ============================= -->
+<!-- HAMBURGER MENU BUTTON -->
+<!-- ============================= -->
+
 <div class="hamburger" onclick="toggleMenu()">☰</div>
 
-<!-- SIDE MENU LEFT -->
+
+<!-- ============================= -->
+<!-- SIDE MENU -->
+<!-- ============================= -->
+
 <div class="side-menu" id="sideMenu">
-  <a href="index.html" onclick="toggleMenu()">🏠 Home</a>
-  <a href="#" onclick="toggleMenu()">💳 Credits</a>
+
+  <a href="index.html" onclick="toggleMenu()">
+    🏠 Home
+  </a>
+
+  <a href="#" onclick="toggleMenu()">
+    💳 Credits
+  </a>
+
 </div>
 
-<!-- CENTER CARD -->
-<div class="card fade-in">
+
+<!-- ============================= -->
+<!-- MAIN CARD -->
+<!-- ============================= -->
+
+<div class="card">
+
   <h1>Credits</h1>
+
   <p>Special thanks to:</p>
+
   <ul>
-    <li>DEVS: SHYSOKUN, GODMODEDEX, VIPBusted, HaZeNeo</li>
-    <li>Fonts: Google Fonts - Inter</li>
+    <li>MAIN DEVS: SHYSOKUN, GODMODEDEX</li>
+    <li>STAFF VIPBusted KORMATTO  </li>
+    <li>Fonts: Google Fonts – Inter</li>
     <li>Discord API Integration</li>
   </ul>
+
 </div>
 
-<script>
-/* ===== STAR BACKGROUND ===== */
-const canvas = document.getElementById('starCanvas');
-const ctx = canvas.getContext('2d');
-let stars = [];
-let starCount = 60;
-function resizeCanvas(){ canvas.width=window.innerWidth; canvas.height=window.innerHeight; }
-window.addEventListener('resize',resizeCanvas); resizeCanvas();
 
-function createStars(){
-  stars=[];
-  for(let i=0;i<starCount;i++){
-    stars.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, size:Math.random()*6+4, speed:Math.random()*3+1, rotation:Math.random()*360});
-  }
+<script>
+
+/* ============================= */
+/* STAR BACKGROUND SCRIPT */
+/* ============================= */
+
+const canvas = document.getElementById("starCanvas");
+const ctx = canvas.getContext("2d");
+
+let stars = [];
+const starCount = 60;
+
+/* Resize canvas */
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 }
+
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+
+
+/* Create stars */
+
+function createStars() {
+
+  stars = [];
+
+  for (let i = 0; i < starCount; i++) {
+
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      size: Math.random() * 6 + 4,
+      speed: Math.random() * 3 + 1,
+      rotation: Math.random() * 360
+    });
+
+  }
+
+}
+
 createStars();
-function drawStar(x,y,radius,rotation){
-  ctx.save(); ctx.translate(x,y); ctx.rotate(rotation*Math.PI/180); ctx.beginPath();
-  for(let i=0;i<5;i++){ ctx.lineTo(0,-radius); ctx.translate(0,-radius); ctx.rotate(Math.PI*2/5); }
-  ctx.closePath(); ctx.fillStyle="#ff1c1c"; ctx.fill(); ctx.restore();
-}
-function animateStars(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  for(let s of stars){
-    drawStar(s.x,s.y,s.size,s.rotation);
-    s.y+=s.speed; s.rotation+=5;
-    if(s.y>canvas.height+s.size){ s.y=-s.size; s.x=Math.random()*canvas.width; }
+
+
+/* Draw star */
+
+function drawStar(x, y, radius, rotation) {
+
+  ctx.save();
+
+  ctx.translate(x, y);
+  ctx.rotate(rotation * Math.PI / 180);
+
+  ctx.beginPath();
+
+  for (let i = 0; i < 5; i++) {
+    ctx.lineTo(0, -radius);
+    ctx.translate(0, -radius);
+    ctx.rotate(Math.PI * 2 / 5);
   }
-  requestAnimationFrame(animateStars);
+
+  ctx.closePath();
+
+  ctx.fillStyle = "#ff1c1c";
+  ctx.fill();
+
+  ctx.restore();
+
 }
+
+
+/* Animate stars */
+
+function animateStars() {
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  for (let s of stars) {
+
+    drawStar(s.x, s.y, s.size, s.rotation);
+
+    s.y += s.speed;
+    s.rotation += 5;
+
+    if (s.y > canvas.height + s.size) {
+      s.y = -s.size;
+      s.x = Math.random() * canvas.width;
+    }
+
+  }
+
+  requestAnimationFrame(animateStars);
+
+}
+
 animateStars();
 
+
+/* ============================= */
 /* SIDE MENU TOGGLE */
+/* ============================= */
+
 let menuOpen = false;
-function toggleMenu(){
+
+function toggleMenu() {
+
   const menu = document.getElementById("sideMenu");
+
   menuOpen = !menuOpen;
-  menu.style.left = menuOpen ? "0" : "-260px";
+
+  menu.style.left = menuOpen
+    ? "0"
+    : "-260px";
+
 }
+
 </script>
 
 </body>
 </html>
+
