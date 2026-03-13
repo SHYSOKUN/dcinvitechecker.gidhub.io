@@ -4,18 +4,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Credits</title>
 
-<!-- Google Font -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-
-/* ============================= */
-/* GLOBAL RESET */
-/* ============================= */
-
+/* ========================= */
+/* GLOBAL */
+/* ========================= */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -23,23 +19,19 @@
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   background: #000;
   color: #fff;
-
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-
   overflow-x: hidden;
-  padding: 10px;
 }
 
-/* ============================= */
-/* STAR CANVAS BACKGROUND */
-/* ============================= */
-
+/* ========================= */
+/* STAR BACKGROUND */
+/* ========================= */
 canvas {
   position: absolute;
   top: 0;
@@ -49,108 +41,93 @@ canvas {
   z-index: 0;
 }
 
-/* ============================= */
-/* MAIN CARD */
-/* ============================= */
-
+/* ========================= */
+/* CARD */
+/* ========================= */
 .card {
   position: relative;
   z-index: 1;
-
   background: #111;
-  border-radius: 20px;
-
+  padding: 50px 30px;
   width: 100%;
   max-width: 500px;
-
-  padding: 50px 30px;
-
-  box-shadow: 0 25px 60px rgba(0,0,0,0.8);
-
+  border-radius: 20px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
   animation:
     floatCard 4s ease-in-out infinite alternate,
     pulseCard 3s ease-in-out infinite alternate;
-
-  word-break: break-word;
 }
 
-/* Floating animation */
+/* animations */
 @keyframes floatCard {
-  0%   { transform: translateY(0px); }
-  100% { transform: translateY(-10px); }
+  from { transform: translateY(0); }
+  to { transform: translateY(-10px); }
 }
 
-/* Glow animation */
 @keyframes pulseCard {
-  0%   { box-shadow: 0 25px 60px rgba(0,0,0,0.8); }
-  50%  { box-shadow: 0 35px 80px rgba(255,28,28,0.5); }
+  0% { box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8); }
+  50% { box-shadow: 0 35px 80px rgba(255,28,28,0.5); }
   100% { box-shadow: 0 25px 60px rgba(0,0,0,0.8); }
 }
 
-/* Text styling */
+/* fade animation */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeIn 1s forwards;
+}
 
+@keyframes fadeIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* text */
 h1 {
   text-align: center;
-  font-size: 28px;
-  font-weight: 700;
   margin-bottom: 12px;
+  font-size: 28px;
 }
 
 p {
   text-align: center;
-  font-size: 16px;
   color: #ccc;
   margin-bottom: 15px;
 }
 
 ul {
-  margin-top: 15px;
   padding-left: 20px;
-  font-size: 16px;
+  margin-bottom: 20px;
 }
 
 li {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
-/* ============================= */
+/* ========================= */
 /* SIDE MENU */
-/* ============================= */
-
+/* ========================= */
 .side-menu {
   position: fixed;
   top: 0;
   left: -260px;
-
   width: 260px;
   height: 100%;
-
   background: #111;
-  box-shadow: 2px 0 15px rgba(0,0,0,0.7);
-
-  padding: 50px 20px 20px;
-  z-index: 999;
-
+  padding: 50px 20px;
   display: flex;
   flex-direction: column;
   gap: 20px;
-
-  transition: left 0.3s ease;
+  transition: left 0.3s;
+  z-index: 999;
 }
 
 .side-menu a {
-  color: #fff;
+  color: white;
   text-decoration: none;
   font-size: 18px;
   font-weight: 600;
-
-  display: flex;
-  align-items: center;
-  gap: 10px;
-
   padding: 8px;
   border-radius: 8px;
-
   transition: 0.2s;
 }
 
@@ -158,124 +135,80 @@ li {
   background: rgba(255,28,28,0.3);
 }
 
-/* ============================= */
-/* HAMBURGER BUTTON */
-/* ============================= */
-
+/* ========================= */
+/* HAMBURGER */
+/* ========================= */
 .hamburger {
   position: fixed;
   top: 15px;
   left: 15px;
-
-  font-size: 28px;
-  color: #fff;
+  font-size: 30px;
   cursor: pointer;
-
   z-index: 1000;
 }
 
-/* ============================= */
-/* MOBILE RESPONSIVE */
-/* ============================= */
+/* ========================= */
+/* FOOTER */
+/* ========================= */
+footer {
+  position: fixed;
+  bottom: 10px;
+  font-size: 12px;
+  color: #777;
+}
 
-@media (max-width: 500px) {
-
+/* ========================= */
+/* MOBILE */
+/* ========================= */
+@media(max-width:500px) {
   .card {
     padding: 40px 25px;
     max-width: 90%;
   }
-
-  h1 { font-size: 24px; }
-  p  { font-size: 14px; }
-
-  ul {
-    font-size: 14px;
-    padding-left: 15px;
-  }
-
-  .side-menu {
-    width: 200px;
-    padding: 40px 15px;
-  }
-
-  .side-menu a { font-size: 16px; }
-
-  .hamburger { font-size: 32px; }
-
 }
-
 </style>
 </head>
 
-
 <body>
-
-<!-- ============================= -->
-<!-- STAR BACKGROUND -->
-<!-- ============================= -->
 
 <canvas id="starCanvas"></canvas>
 
-
-<!-- ============================= -->
-<!-- HAMBURGER MENU BUTTON -->
-<!-- ============================= -->
-
+<!-- MENU BUTTON -->
 <div class="hamburger" onclick="toggleMenu()">☰</div>
 
-
-<!-- ============================= -->
 <!-- SIDE MENU -->
-<!-- ============================= -->
-
 <div class="side-menu" id="sideMenu">
-
-  <a href="index.html" onclick="toggleMenu()">
-    🏠 Home
-  </a>
-
-  <a href="#" onclick="toggleMenu()">
-    💳 Credits
-  </a>
-
+  <a href="index.html">🏠 Home</a>
+  <a href="#">💳 Credits</a>
 </div>
 
-
-<!-- ============================= -->
 <!-- MAIN CARD -->
-<!-- ============================= -->
-
-<div class="card">
-
+<div class="card fade-in">
   <h1>Credits</h1>
-
   <p>Special thanks to:</p>
-
   <ul>
     <li>MAIN DEVS: SHYSOKUN, GODMODEDEX</li>
-    <li>STAFF VIPBusted KORMATTO  </li>
+    <li>STAFF: VIPBusted, KORMATTO</li>
     <li>Fonts: Google Fonts – Inter</li>
     <li>Discord API Integration</li>
   </ul>
-
 </div>
 
+<footer>
+© 2026 INVITE CHECKER • All rights reserved • Made by SHYSOKUN & C0
+</footer>
 
 <script>
-
-/* ============================= */
-/* STAR BACKGROUND SCRIPT */
-/* ============================= */
-
+/* ========================= */
+/* STAR BACKGROUND */
+/* ========================= */
 const canvas = document.getElementById("starCanvas");
 const ctx = canvas.getContext("2d");
 
 let stars = [];
-const starCount = 60;
+let starCount = window.innerWidth < 600 ? 30 : 60;
 
-/* Resize canvas */
-
-function resizeCanvas() {
+function resizeCanvas(){
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 }
@@ -283,104 +216,79 @@ function resizeCanvas() {
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
 
-
-/* Create stars */
-
-function createStars() {
-
+function createStars(){
   stars = [];
-
-  for (let i = 0; i < starCount; i++) {
-
+  for(let i=0; i<starCount; i++){
     stars.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      size: Math.random() * 6 + 4,
-      speed: Math.random() * 3 + 1,
-      rotation: Math.random() * 360
+      x: Math.random()*canvas.width,
+      y: Math.random()*canvas.height,
+      size: Math.random()*6+4,
+      speed: Math.random()*3+1,
+      rotation: Math.random()*360
     });
-
   }
-
 }
 
 createStars();
 
-
-/* Draw star */
-
-function drawStar(x, y, radius, rotation) {
-
+function drawStar(x, y, radius, rotation){
   ctx.save();
-
   ctx.translate(x, y);
-  ctx.rotate(rotation * Math.PI / 180);
-
+  ctx.rotate(rotation * Math.PI/180);
   ctx.beginPath();
-
-  for (let i = 0; i < 5; i++) {
+  for(let i=0; i<5; i++){
     ctx.lineTo(0, -radius);
     ctx.translate(0, -radius);
-    ctx.rotate(Math.PI * 2 / 5);
+    ctx.rotate(Math.PI*2/5);
   }
-
   ctx.closePath();
-
-  ctx.fillStyle = "#ff1c1c";
+  ctx.fillStyle="#ff1c1c";
   ctx.fill();
-
   ctx.restore();
-
 }
 
-
-/* Animate stars */
-
-function animateStars() {
-
+function animateStars(){
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  for (let s of stars) {
-
+  for(let s of stars){
     drawStar(s.x, s.y, s.size, s.rotation);
-
     s.y += s.speed;
     s.rotation += 5;
-
-    if (s.y > canvas.height + s.size) {
+    if(s.y > canvas.height + s.size){
       s.y = -s.size;
-      s.x = Math.random() * canvas.width;
+      s.x = Math.random()*canvas.width;
     }
-
   }
-
   requestAnimationFrame(animateStars);
-
 }
-
 animateStars();
 
-
-/* ============================= */
+/* ========================= */
 /* SIDE MENU TOGGLE */
-/* ============================= */
-
+/* ========================= */
 let menuOpen = false;
-
-function toggleMenu() {
-
+function toggleMenu(){
   const menu = document.getElementById("sideMenu");
-
   menuOpen = !menuOpen;
-
-  menu.style.left = menuOpen
-    ? "0"
-    : "-260px";
-
+  menu.style.left = menuOpen ? "0" : "-260px";
 }
 
+/* close menu when clicking outside */
+document.addEventListener("click", function(e){
+  const menu = document.getElementById("sideMenu");
+  const button = document.querySelector(".hamburger");
+  if(menuOpen && !menu.contains(e.target) && !button.contains(e.target)){
+    menu.style.left = "-260px";
+    menuOpen = false;
+  }
+});
+
+/* keyboard shortcut: press M to toggle menu */
+document.addEventListener("keydown", function(e){
+  if(e.key.toLowerCase() === "m") toggleMenu();
+});
 </script>
 
 </body>
 </html>
+
 
